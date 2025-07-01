@@ -90,9 +90,13 @@ import io.ballerina.tools.text.TextDocumentChange;
 import io.ballerina.tools.text.TextRange;
 import org.ballerinalang.diagramutil.connector.models.connector.Type;
 import org.ballerinalang.diagramutil.connector.models.connector.TypeInfo;
+import org.ballerinalang.diagramutil.connector.models.connector.reftypes.RefArrayType;
+import org.ballerinalang.diagramutil.connector.models.connector.reftypes.RefRecordType;
+import org.ballerinalang.diagramutil.connector.models.connector.reftypes.RefType;
 import org.ballerinalang.diagramutil.connector.models.connector.types.ArrayType;
 import org.ballerinalang.diagramutil.connector.models.connector.types.PrimitiveType;
 import org.ballerinalang.diagramutil.connector.models.connector.types.RecordType;
+import org.ballerinalang.diagramutil.connector.models.connector.ReferenceType;
 import org.ballerinalang.langserver.common.utils.CommonUtil;
 import org.ballerinalang.langserver.commons.workspace.WorkspaceManager;
 import org.eclipse.lsp4j.Position;
@@ -586,6 +590,7 @@ public class DataMapManager {
 
     private List<MappingPort> getInputPorts(SemanticModel semanticModel, Document document, LinePosition position) {
         List<MappingPort> mappingPorts = new ArrayList<>();
+        List<MappingPort> refMappingPorts = new ArrayList<>();
 
         List<Symbol> symbols = semanticModel.visibleSymbols(document, position);
         for (Symbol symbol : symbols) {
@@ -596,7 +601,18 @@ public class DataMapManager {
                     continue;
                 }
                 Type type = Type.fromSemanticSymbol(symbol);
+                RefType refType;
+                try {
+                    refType = ReferenceType.fromSemanticSymbol(symbol);
+                }
+                catch (UnsupportedOperationException e) {
+                    continue;
+                }
                 MappingPort mappingPort = getMappingPort(optName.get(), optName.get(), type, true);
+                MappingPort refMappingPort = null;
+                if (refType != null) {
+                    refMappingPort = getRefMappingPort(optName.get(), optName.get(), refType, true);
+                }
                 if (mappingPort == null) {
                     continue;
                 }
@@ -607,29 +623,57 @@ public class DataMapManager {
                     mappingPort.category = "variable";
                 }
                 mappingPorts.add(mappingPort);
+                refMappingPorts.add(refMappingPort);
             } else if (kind == SymbolKind.PARAMETER) {
                 Optional<String> optName = symbol.getName();
                 if (optName.isEmpty()) {
                     continue;
                 }
                 Type type = Type.fromSemanticSymbol(symbol);
+                RefType refType;
+                try {
+                    refType = ReferenceType.fromSemanticSymbol(symbol);
+                } catch (UnsupportedOperationException e) {
+                    continue;
+                }
                 MappingPort mappingPort = getMappingPort(optName.get(), optName.get(), type, true);
+                MappingPort refMappingPort = null;
+                if (refType != null) {
+                    refMappingPort = getRefMappingPort(optName.get(), optName.get(), refType, true);
+                }
                 if (mappingPort == null) {
                     continue;
                 }
                 mappingPort.category = "parameter";
                 mappingPorts.add(mappingPort);
+                if (refMappingPort != null) {
+                    refMappingPorts.add(refMappingPort);
+                }
             } else if (kind == SymbolKind.CONSTANT) {
                 Type type = Type.fromSemanticSymbol(symbol);
+                RefType refType;
+                try {
+                    refType = ReferenceType.fromSemanticSymbol(symbol);
+                } catch (UnsupportedOperationException e) {
+                    continue;
+                }
                 MappingPort mappingPort = getMappingPort(type.getTypeName(), type.getTypeName(), type, true);
+                MappingPort refMappingPort = null;
+                if (refType != null) {
+                    refMappingPort = getRefMappingPort(type.getTypeName(), type.getTypeName(), refType, true);
+                }
                 if (mappingPort == null) {
                     continue;
                 }
                 mappingPort.category = "constant";
                 mappingPorts.add(mappingPort);
+                if (refMappingPort != null) {
+                    refMappingPorts.add(refMappingPort);
+                }
             }
         }
-        return mappingPorts;
+        assert mappingPorts.size() == refMappingPorts.size();
+        return refMappingPorts;
     }
 
     private MappingPort getMappingPort(String id, String name, Type type, boolean isInputPort) {
@@ -647,6 +691,31 @@ public class DataMapManager {
         } else if (type.getTypeName().equals("array")) {
             ArrayType arrayType = (ArrayType) type;
             MappingPort memberPort = getMappingPort(isInputPort ? id + ".0" : id, null, arrayType.memberType,
+                    isInputPort);
+            MappingArrayPort arrayPort = new MappingArrayPort(id, name, memberPort == null ? "record" :
+                    memberPort.typeName + "[]", type.getTypeName());
+            arrayPort.setMember(memberPort);
+            return arrayPort;
+        } else {
+            return null;
+        }
+    }
+
+    private MappingPort getRefMappingPort(String id, String name, RefType type, boolean isInputPort) {
+        if (type.getTypeName().equals("record")) {
+            RefRecordType recordType = (RefRecordType) type;
+            TypeInfo typeInfo = type.getTypeInfo();
+            MappingRecordPort recordPort = new MappingRecordPort(id, name, typeInfo != null ?
+                    typeInfo.name : type.getTypeName(), type.getTypeName());
+            for (ReferenceType.Field field : recordType.fields) {
+                recordPort.fields.add(getRefMappingPort(id + "." + field.getName(), field.getName(), field.getType(), isInputPort));
+            }
+            return recordPort;
+        } else if (type.getHashCode() == null || type.getHashCode().isEmpty()) {
+            return new MappingPort(id, type.getName(), type.getTypeName(), type.getTypeName());
+        } else if (type.getTypeName().equals("array")) {
+            RefArrayType arrayType = (RefArrayType) type;
+            MappingPort memberPort = getRefMappingPort(isInputPort ? id + ".0" : id, null, arrayType.elementType,
                     isInputPort);
             MappingArrayPort arrayPort = new MappingArrayPort(id, name, memberPort == null ? "record" :
                     memberPort.typeName + "[]", type.getTypeName());

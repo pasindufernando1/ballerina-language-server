@@ -179,8 +179,20 @@ public class DataMapManager {
         }
 
         Type type = Type.fromSemanticSymbol(targetNode.typeSymbol());
+        RefType refType;
+        try {
+            refType = ReferenceType.fromSemanticSymbol(targetNode.typeSymbol());
+        }
+        catch (UnsupportedOperationException e) {
+            //Unsupported type - Return null
+            return null;
+        }
         String name = targetNode.name();
         MappingPort outputPort = getMappingPort(name, name, type, false);
+        MappingPort refOutputPort = null;
+        if (refType != null) {
+            refOutputPort = getRefMappingPort(name, name, refType, false);
+        }
         ExpressionNode expressionNode = targetNode.expressionNode();
         if (expressionNode == null) {
             return gson.toJsonTree(new Model(inputPorts, outputPort, new ArrayList<>(), null));
@@ -236,7 +248,8 @@ public class DataMapManager {
             generateArrayVariableDataMapping(expressionNode, mappings, name, semanticModel);
         }
 
-        return gson.toJsonTree(new Model(inputPorts, outputPort, subMappingPorts, mappings, query));
+//        return gson.toJsonTree(new Model(inputPorts, outputPort, subMappingPorts, mappings, query));
+        return gson.toJsonTree(new Model(inputPorts, refOutputPort, subMappingPorts, mappings, query));
     }
 
     private TargetNode getTargetNode(Node parentNode, String targetField, NodeKind nodeKind, String propertyKey,
@@ -664,7 +677,8 @@ public class DataMapManager {
                 }
             }
         }
-        return mappingPorts;
+//        return mappingPorts;
+        return refMappingPorts;
     }
 
     private MappingPort getRefMappingPort(String id, String name, RefType type, boolean isInputPort) {

@@ -209,7 +209,7 @@ public class ReferenceType {
             RefType refType = new RefType("never");
             refType.typeName = "never";
             return refType;
-        } else if (kind == TypeDescKind.SINGLETON){
+        } else if (kind == TypeDescKind.SINGLETON) {
             RefType refType = new RefType("singleton");
             refType.typeName = name;
             return refType;

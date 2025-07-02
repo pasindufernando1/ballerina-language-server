@@ -14,7 +14,7 @@ public type ProgressNote record {|
     string pnfield1;
     SampleType pnfield2;
     SampleRecord[] pnfield3;
-
+    string[] pnfield4;
 |};
 
 public type User record {|
@@ -36,7 +36,8 @@ service / on new http:Listener(9090) {
             ProgressNote progressNote = {
                 pnfield1: "Progress Note Field 1",
                 pnfield2: sampleType,
-                pnfield3: [sampleRecord, sampleRecord2]
+                pnfield3: [sampleRecord, sampleRecord2],
+                pnfield4: ["Sample string 1", "Sample string 2"]
             };
             return progressNote;
         } on fail error e {

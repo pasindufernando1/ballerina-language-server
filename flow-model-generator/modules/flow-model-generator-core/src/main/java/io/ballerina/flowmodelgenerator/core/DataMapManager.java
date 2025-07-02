@@ -681,11 +681,9 @@ public class DataMapManager {
             } else {
                 return new MappingRecordPort(id, name, type.name, type.getTypeName(), type.getHashCode());
             }
-        } else if (type.getHashCode() == null || type.getHashCode().isEmpty()) {
-            return new MappingPort(id, name, type.getTypeName(), type.getTypeName());
         } else if ("array".equals(type.getTypeName())) {
             if (type instanceof RefArrayType arrayType) {
-                MappingPort memberPort = getRefMappingPort(isInputPort ? id + ".0" : id, null, arrayType.elementType, isInputPort, references);
+                MappingPort memberPort = getRefMappingPort(id, null, arrayType.elementType, isInputPort, references);
                 MappingArrayPort arrayPort = new MappingArrayPort(
                         id, name, memberPort == null ? "record" : memberPort.typeName + "[]", type.getTypeName());
                 arrayPort.setMember(memberPort);
@@ -693,7 +691,8 @@ public class DataMapManager {
             } else {
                 return new MappingArrayPort(id, name, type.name, type.getTypeName(), type.getHashCode());
             }
-
+        } else if (type.getHashCode() == null || type.getHashCode().isEmpty()) {
+            return new MappingPort(id, name, type.getTypeName(), type.getTypeName());
         } else {
             return null;
         }

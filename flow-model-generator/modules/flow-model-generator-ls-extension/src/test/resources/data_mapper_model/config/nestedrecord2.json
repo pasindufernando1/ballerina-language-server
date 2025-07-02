@@ -181,31 +181,9 @@
             "fields": [],
             "id": "pnfield2",
             "variableName": "pnfield2",
-            "typeName": "SampleType",
+            "typeName": "SampleRecord",
             "kind": "record",
-            "reference": "1081249490"
-          },
-          {
-            "member": {
-              "typeName": "",
-              "reference": "-377428503"
-            },
-            "id": "pnfield3",
-            "variableName": "pnfield3",
-            "typeName": "",
-            "kind": "array",
             "reference": "-377428503"
-          },
-          {
-            "member": {
-              "id": "pnfield4",
-              "typeName": "string",
-              "kind": "string"
-            },
-            "id": "pnfield4",
-            "variableName": "pnfield4",
-            "typeName": "string[]",
-            "kind": "array"
           }
         ],
         "typeName": "ProgressNote",

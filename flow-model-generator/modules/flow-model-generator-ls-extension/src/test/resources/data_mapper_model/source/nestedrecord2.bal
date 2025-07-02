@@ -17,7 +17,7 @@ public type ProgressNote record {|
     string[] pnfield4;
 |};
 
-public type User record {|
+public type User2 record {|
     string name;
 |};
 
@@ -28,7 +28,7 @@ service / on new http:Listener(9090) {
     function init() returns error? {
     }
 
-    resource function post getProgressNote(@http:Payload User user) returns ProgressNote|http:InternalServerError {
+    resource function post getProgressNote(@http:Payload User2 user) returns ProgressNote|http:InternalServerError {
         do {
             SampleType sampleType = { stfield1: "Sample Type Field 1", stfield2: 123 };
             SampleRecord sampleRecord = { srfield1: "Sample Record Field 1", srfield2: sampleType };

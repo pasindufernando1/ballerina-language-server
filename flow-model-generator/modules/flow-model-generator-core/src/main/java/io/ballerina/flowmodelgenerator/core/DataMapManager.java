@@ -688,7 +688,7 @@ public class DataMapManager {
                 arrayPort.setMember(memberPort);
                 return arrayPort;
             } else {
-                return new MappingArrayPort(id, name, "record[]", type.getTypeName());
+                return new MappingArrayPort(id, name, type.name, type.getTypeName(), type.getHashCode());
             }
 
         } else {
@@ -1409,6 +1409,11 @@ public class DataMapManager {
             this.reference = reference;
         }
 
+        MappingPort(String typeName, String kind) {
+            this.typeName = typeName;
+            this.kind = kind;
+        }
+
         MappingPort(String typeName) {
             this.typeName = typeName;
         }
@@ -1451,7 +1456,7 @@ public class DataMapManager {
         }
 
         MappingRecordPort(MappingRecordPort mappingRecordPort, boolean isReferenceType){
-            super(mappingRecordPort.typeName);
+            super(mappingRecordPort.typeName, mappingRecordPort.kind);
             this.fields = mappingRecordPort.fields;
         }
     }
@@ -1461,6 +1466,12 @@ public class DataMapManager {
 
         MappingArrayPort(String id, String variableName, String typeName, String kind) {
             super(id, variableName, typeName, kind);
+        }
+
+        MappingArrayPort(String id, String variableName, String typeName, String kind, String reference) {
+            super(id, variableName, typeName, kind, reference);
+            this.member = new MappingPort(typeName);
+            this.member.reference = reference;
         }
 
         void setMember(MappingPort member) {

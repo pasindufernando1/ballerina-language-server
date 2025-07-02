@@ -54,10 +54,10 @@
         "fields": [],
         "id": "user",
         "variableName": "user",
-        "typeName": "User",
+        "typeName": "User2",
         "kind": "record",
         "category": "parameter",
-        "reference": "45127961"
+        "reference": "1398966841"
       }
     ],
     "output": {
@@ -157,18 +157,6 @@
       }
     ],
     "references": {
-      "45127961": {
-        "fields": [
-          {
-            "id": "name",
-            "variableName": "name",
-            "typeName": "string",
-            "kind": "string"
-          }
-        ],
-        "typeName": "User",
-        "kind": "record"
-      },
       "270108429": {
         "fields": [
           {
@@ -187,6 +175,18 @@
           }
         ],
         "typeName": "ProgressNote",
+        "kind": "record"
+      },
+      "1398966841": {
+        "fields": [
+          {
+            "id": "name",
+            "variableName": "name",
+            "typeName": "string",
+            "kind": "string"
+          }
+        ],
+        "typeName": "User2",
         "kind": "record"
       },
       "1081249490": {

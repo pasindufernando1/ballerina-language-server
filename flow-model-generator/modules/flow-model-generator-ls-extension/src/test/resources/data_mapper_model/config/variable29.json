@@ -16,57 +16,30 @@
     },
     "sourceCode": ""
   },
-  "propertyKey": "expression",
   "position": {
     "line": 18,
     "offset": 12
   },
+  "propertyKey": "expression",
   "model": {
     "inputs": [
       {
-        "fields": [
-          {
-            "member": {
-              "id": "user.phoneNumber.0",
-              "typeName": "string",
-              "kind": "string"
-            },
-            "id": "user.phoneNumber",
-            "variableName": "phoneNumber",
-            "typeName": "string[]",
-            "kind": "array"
-          }
-        ],
+        "fields": [],
         "id": "user",
         "variableName": "user",
         "typeName": "User",
         "kind": "record",
-        "category": "parameter"
+        "category": "parameter",
+        "reference": "45127961"
       }
     ],
     "output": {
-      "fields": [
-        {
-          "member": {
-            "member": {
-              "id": "td.values",
-              "typeName": "string",
-              "kind": "string"
-            },
-            "id": "td.values",
-            "typeName": "string[]",
-            "kind": "array"
-          },
-          "id": "td.values",
-          "variableName": "values",
-          "typeName": "string[][]",
-          "kind": "array"
-        }
-      ],
+      "fields": [],
       "id": "td",
       "variableName": "td",
       "typeName": "TwoDim",
-      "kind": "record"
+      "kind": "record",
+      "reference": "393619562"
     },
     "mappings": [
       {
@@ -169,6 +142,44 @@
           }
         ]
       }
-    ]
+    ],
+    "references": {
+      "45127961": {
+        "fields": [
+          {
+            "fields": [],
+            "id": "info",
+            "variableName": "info",
+            "typeName": "Info",
+            "kind": "record",
+            "reference": "44765692"
+          }
+        ],
+        "typeName": "User",
+        "kind": "record"
+      },
+      "393619562": {
+        "fields": [
+          {
+            "member": {
+              "member": {
+                "id": "values",
+                "typeName": "string",
+                "kind": "string"
+              },
+              "id": "values",
+              "typeName": "string[]",
+              "kind": "array"
+            },
+            "id": "values",
+            "variableName": "values",
+            "typeName": "string[][]",
+            "kind": "array"
+          }
+        ],
+        "typeName": "TwoDim",
+        "kind": "record"
+      }
+    }
   }
 }

@@ -16,40 +16,49 @@
     },
     "sourceCode": "Student student = {};"
   },
-  "propertyKey": "expression",
   "position": {
     "line": 17,
     "offset": 12
   },
+  "propertyKey": "expression",
   "model": {
     "inputs": [
       {
         "id": "CONST",
+        "variableName": "CONST",
         "typeName": "CONST",
         "kind": "CONST",
         "category": "constant"
       }
     ],
     "output": {
-      "fields": [
-        {
-          "id": "student.username",
-          "variableName": "username",
-          "typeName": "string",
-          "kind": "string"
-        },
-        {
-          "id": "student.password",
-          "variableName": "password",
-          "typeName": "string",
-          "kind": "string"
-        }
-      ],
+      "fields": [],
       "id": "student",
       "variableName": "student",
       "typeName": "Student",
-      "kind": "record"
+      "kind": "record",
+      "reference": "-1649595859"
     },
-    "mappings": []
+    "mappings": [],
+    "references": {
+      "-1649595859": {
+        "fields": [
+          {
+            "id": "username",
+            "variableName": "username",
+            "typeName": "string",
+            "kind": "string"
+          },
+          {
+            "id": "password",
+            "variableName": "password",
+            "typeName": "string",
+            "kind": "string"
+          }
+        ],
+        "typeName": "Student",
+        "kind": "record"
+      }
+    }
   }
 }

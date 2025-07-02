@@ -16,80 +16,37 @@
     },
     "sourceCode": ""
   },
-  "propertyKey": "expression",
   "position": {
     "line": 24,
     "offset": 65
   },
+  "propertyKey": "expression",
   "model": {
     "inputs": [
       {
         "id": "CONST",
+        "variableName": "CONST",
         "typeName": "CONST",
         "kind": "CONST",
         "category": "constant"
       },
       {
-        "fields": [
-          {
-            "id": "userInfo.username",
-            "variableName": "username",
-            "typeName": "string",
-            "kind": "string"
-          },
-          {
-            "id": "userInfo.password",
-            "variableName": "password",
-            "typeName": "string",
-            "kind": "string"
-          }
-        ],
+        "fields": [],
         "id": "userInfo",
         "variableName": "userInfo",
         "typeName": "UserInfo",
         "kind": "record",
-        "category": "variable"
+        "category": "variable",
+        "reference": "-1740685977"
       }
     ],
     "output": {
-      "fields": [
-        {
-          "id": "student.id",
-          "variableName": "id",
-          "typeName": "decimal",
-          "kind": "decimal"
-        },
-        {
-          "fields": [
-            {
-              "id": "student.credentials.username",
-              "variableName": "username",
-              "typeName": "string",
-              "kind": "string"
-            },
-            {
-              "id": "student.credentials.password",
-              "variableName": "password",
-              "typeName": "string",
-              "kind": "string"
-            }
-          ],
-          "id": "student.credentials",
-          "variableName": "credentials",
-          "typeName": "Credentials",
-          "kind": "record"
-        },
-        {
-          "id": "student.length",
-          "variableName": "length",
-          "typeName": "int",
-          "kind": "int"
-        }
-      ],
+      "fields": [],
       "id": "student",
       "variableName": "student",
       "typeName": "Student",
-      "kind": "record"
+      "kind": "record",
+      "reference": "-1649595859"
     },
     "mappings": [
       {
@@ -135,6 +92,44 @@
         "elements": [],
         "isQueryExpression": false
       }
-    ]
+    ],
+    "references": {
+      "-1740685977": {
+        "fields": [
+          {
+            "id": "username",
+            "variableName": "username",
+            "typeName": "string",
+            "kind": "string"
+          },
+          {
+            "id": "password",
+            "variableName": "password",
+            "typeName": "string",
+            "kind": "string"
+          }
+        ],
+        "typeName": "UserInfo",
+        "kind": "record"
+      },
+      "-1649595859": {
+        "fields": [
+          {
+            "id": "username",
+            "variableName": "username",
+            "typeName": "string",
+            "kind": "string"
+          },
+          {
+            "id": "password",
+            "variableName": "password",
+            "typeName": "string",
+            "kind": "string"
+          }
+        ],
+        "typeName": "Student",
+        "kind": "record"
+      }
+    }
   }
 }

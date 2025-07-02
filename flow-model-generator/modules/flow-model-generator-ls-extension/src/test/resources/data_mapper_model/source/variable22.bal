@@ -28,7 +28,7 @@ type User6 record {|
     decimal balance;
 |};
 
-type User record {|
+type User3 record {|
     string name;
 |};
 
@@ -37,7 +37,7 @@ service / on new http:Listener(9090) {
     function init() returns error? {
     }
 
-    resource function post getPerson(@http:Payload User user) returns Person|http:InternalServerError {
+    resource function post getPerson(@http:Payload User3 user) returns Person|http:InternalServerError {
         do {
             User4[] users4 = [{users6: [{balance: 2.0, account: user.name}], user5: {u: [user.name, user.name]}}];
         } on fail error e {

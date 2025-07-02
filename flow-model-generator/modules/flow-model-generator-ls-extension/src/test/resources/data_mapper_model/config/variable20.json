@@ -26,54 +26,18 @@
     "inputs": [
       {
         "id": "CONST",
+        "variableName": "CONST",
         "typeName": "CONST",
         "kind": "CONST",
         "category": "constant"
       },
       {
         "member": {
-          "fields": [
-            {
-              "id": "banks.0.name",
-              "variableName": "name",
-              "typeName": "string",
-              "kind": "string"
-            },
-            {
-              "member": {
-                "fields": [
-                  {
-                    "id": "banks.0.userInfo.0.username",
-                    "variableName": "username",
-                    "typeName": "string",
-                    "kind": "string"
-                  },
-                  {
-                    "id": "banks.0.userInfo.0.password",
-                    "variableName": "password",
-                    "typeName": "string",
-                    "kind": "string"
-                  },
-                  {
-                    "id": "banks.0.userInfo.0.id",
-                    "variableName": "id",
-                    "typeName": "int",
-                    "kind": "int"
-                  }
-                ],
-                "id": "banks.0.userInfo.0",
-                "typeName": "UserInfo",
-                "kind": "record"
-              },
-              "id": "banks.0.userInfo",
-              "variableName": "userInfo",
-              "typeName": "UserInfo[]",
-              "kind": "array"
-            }
-          ],
-          "id": "banks.0",
+          "fields": [],
+          "id": "banks",
           "typeName": "Bank",
-          "kind": "record"
+          "kind": "record",
+          "reference": "44544906"
         },
         "id": "banks",
         "variableName": "banks",
@@ -83,29 +47,11 @@
       },
       {
         "member": {
-          "fields": [
-            {
-              "id": "userInfo.0.username",
-              "variableName": "username",
-              "typeName": "string",
-              "kind": "string"
-            },
-            {
-              "id": "userInfo.0.password",
-              "variableName": "password",
-              "typeName": "string",
-              "kind": "string"
-            },
-            {
-              "id": "userInfo.0.id",
-              "variableName": "id",
-              "typeName": "int",
-              "kind": "int"
-            }
-          ],
-          "id": "userInfo.0",
+          "fields": [],
+          "id": "userInfo",
           "typeName": "UserInfo",
-          "kind": "record"
+          "kind": "record",
+          "reference": "-1740685977"
         },
         "id": "userInfo",
         "variableName": "userInfo",
@@ -142,23 +88,11 @@
     ],
     "output": {
       "member": {
-        "fields": [
-          {
-            "id": "credentials.username",
-            "variableName": "username",
-            "typeName": "string",
-            "kind": "string"
-          },
-          {
-            "id": "credentials.password",
-            "variableName": "password",
-            "typeName": "string",
-            "kind": "string"
-          }
-        ],
+        "fields": [],
         "id": "credentials",
         "typeName": "Credentials",
-        "kind": "record"
+        "kind": "record",
+        "reference": "-695303698"
       },
       "id": "credentials",
       "variableName": "credentials",
@@ -201,6 +135,7 @@
       },
       "intermediateClauses": [],
       "resultClause": "{\n                           password: ,\n                           username: info.username\n                       }"
-    }
+    },
+    "references": {}
   }
 }

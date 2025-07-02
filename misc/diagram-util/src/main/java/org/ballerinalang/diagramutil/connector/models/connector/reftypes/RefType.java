@@ -30,19 +30,10 @@ import java.util.Set;
 public class RefType  implements Cloneable {
     public Set<String> dependentTypeHashes = new HashSet<>();
 
-    public String getHashCode() {
-        return hashCode;
-    }
-
     @Expose
     public String hashCode;
     @Expose
     public String name;
-
-    public String getTypeName() {
-        return typeName;
-    }
-
     @Expose
     public String typeName;
     @Expose
@@ -69,6 +60,14 @@ public class RefType  implements Cloneable {
         } catch (CloneNotSupportedException e) {
             throw new AssertionError(e);
         }
+    }
+
+    public String getHashCode() {
+        return hashCode;
+    }
+
+    public String getTypeName() {
+        return typeName;
     }
 
 

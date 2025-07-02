@@ -16,66 +16,30 @@
     },
     "sourceCode": ""
   },
-  "propertyKey": "expression",
   "position": {
     "line": 23,
     "offset": 12
   },
+  "propertyKey": "expression",
   "model": {
     "inputs": [
       {
-        "fields": [
-          {
-            "member": {
-              "id": "user.phoneNumber.0",
-              "typeName": "string",
-              "kind": "string"
-            },
-            "id": "user.phoneNumber",
-            "variableName": "phoneNumber",
-            "typeName": "string[]",
-            "kind": "array"
-          }
-        ],
+        "fields": [],
         "id": "user",
         "variableName": "user",
         "typeName": "User",
         "kind": "record",
-        "category": "parameter"
+        "category": "parameter",
+        "reference": "45127961"
       }
     ],
     "output": {
-      "fields": [
-        {
-          "member": {
-            "fields": [
-              {
-                "id": "var3.contacts.primaryPhone",
-                "variableName": "primaryPhone",
-                "typeName": "string",
-                "kind": "string"
-              },
-              {
-                "id": "var3.contacts.secondaryPhone",
-                "variableName": "secondaryPhone",
-                "typeName": "string",
-                "kind": "string"
-              }
-            ],
-            "id": "var3.contacts",
-            "typeName": "Contact",
-            "kind": "record"
-          },
-          "id": "var3.contacts",
-          "variableName": "contacts",
-          "typeName": "Contact[]",
-          "kind": "array"
-        }
-      ],
+      "fields": [],
       "id": "var3",
       "variableName": "var3",
       "typeName": "Person",
-      "kind": "record"
+      "kind": "record",
+      "reference": "262614307"
     },
     "mappings": [
       {
@@ -134,6 +98,36 @@
           }
         ]
       }
-    ]
+    ],
+    "references": {
+      "45127961": {
+        "fields": [
+          {
+            "fields": [],
+            "id": "info",
+            "variableName": "info",
+            "typeName": "Info",
+            "kind": "record",
+            "reference": "44765692"
+          }
+        ],
+        "typeName": "User",
+        "kind": "record"
+      },
+      "262614307": {
+        "fields": [
+          {
+            "fields": [],
+            "id": "contactDetails",
+            "variableName": "contactDetails",
+            "typeName": "ContactDetails",
+            "kind": "record",
+            "reference": "732128720"
+          }
+        ],
+        "typeName": "Person",
+        "kind": "record"
+      }
+    }
   }
 }

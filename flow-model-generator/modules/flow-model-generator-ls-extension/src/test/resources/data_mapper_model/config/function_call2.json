@@ -20,60 +20,37 @@
     },
     "sourceCode": "Student student = getStudent({username: student.username, password: student.password});"
   },
-  "propertyKey": "userInfo",
   "position": {
     "line": 18,
     "offset": 65
   },
+  "propertyKey": "userInfo",
   "model": {
     "inputs": [
       {
         "id": "CONST",
+        "variableName": "CONST",
         "typeName": "CONST",
         "kind": "CONST",
         "category": "constant"
       },
       {
-        "fields": [
-          {
-            "id": "userInfo.username",
-            "variableName": "username",
-            "typeName": "string",
-            "kind": "string"
-          },
-          {
-            "id": "userInfo.password",
-            "variableName": "password",
-            "typeName": "string",
-            "kind": "string"
-          }
-        ],
+        "fields": [],
         "id": "userInfo",
         "variableName": "userInfo",
         "typeName": "UserInfo",
         "kind": "record",
-        "category": "variable"
+        "category": "variable",
+        "reference": "-1740685977"
       }
     ],
     "output": {
-      "fields": [
-        {
-          "id": "userInfo.username",
-          "variableName": "username",
-          "typeName": "string",
-          "kind": "string"
-        },
-        {
-          "id": "userInfo.password",
-          "variableName": "password",
-          "typeName": "string",
-          "kind": "string"
-        }
-      ],
+      "fields": [],
       "id": "userInfo",
       "variableName": "userInfo",
       "typeName": "UserInfo",
-      "kind": "record"
+      "kind": "record",
+      "reference": "-1740685977"
     },
     "mappings": [
       {
@@ -100,6 +77,26 @@
         "elements": [],
         "isQueryExpression": false
       }
-    ]
+    ],
+    "references": {
+      "-1740685977": {
+        "fields": [
+          {
+            "id": "username",
+            "variableName": "username",
+            "typeName": "string",
+            "kind": "string"
+          },
+          {
+            "id": "password",
+            "variableName": "password",
+            "typeName": "string",
+            "kind": "string"
+          }
+        ],
+        "typeName": "UserInfo",
+        "kind": "record"
+      }
+    }
   }
 }

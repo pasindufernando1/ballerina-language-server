@@ -16,67 +16,22 @@
     },
     "sourceCode": ""
   },
-  "propertyKey": "expression",
   "position": {
     "line": 21,
     "offset": 4
   },
+  "propertyKey": "expression",
+  "targetField": "p.contactDetails.phoneNumbers",
   "model": {
     "inputs": [
       {
-        "fields": [
-          {
-            "fields": [
-              {
-                "member": {
-                  "id": "u.info.secondaryPhones.0",
-                  "typeName": "string",
-                  "kind": "string"
-                },
-                "id": "u.info.secondaryPhones",
-                "variableName": "secondaryPhones",
-                "typeName": "string[]",
-                "kind": "array"
-              },
-              {
-                "member": {
-                  "id": "u.info.emails.0",
-                  "typeName": "string",
-                  "kind": "string"
-                },
-                "id": "u.info.emails",
-                "variableName": "emails",
-                "typeName": "string[]",
-                "kind": "array"
-              },
-              {
-                "member": {
-                  "member": {
-                    "id": "u.info.addresses.0.0",
-                    "typeName": "string",
-                    "kind": "string"
-                  },
-                  "id": "u.info.addresses.0",
-                  "typeName": "string[]",
-                  "kind": "array"
-                },
-                "id": "u.info.addresses",
-                "variableName": "addresses",
-                "typeName": "string[][]",
-                "kind": "array"
-              }
-            ],
-            "id": "u.info",
-            "variableName": "info",
-            "typeName": "Info",
-            "kind": "record"
-          }
-        ],
+        "fields": [],
         "id": "u",
         "variableName": "u",
         "typeName": "User",
         "kind": "record",
-        "category": "variable"
+        "category": "variable",
+        "reference": "45127961"
       },
       {
         "id": "secondaryPhonesItem",
@@ -119,7 +74,22 @@
       },
       "intermediateClauses": [],
       "resultClause": "secondaryPhonesItem"
+    },
+    "references": {
+      "45127961": {
+        "fields": [
+          {
+            "fields": [],
+            "id": "info",
+            "variableName": "info",
+            "typeName": "Info",
+            "kind": "record",
+            "reference": "44765692"
+          }
+        ],
+        "typeName": "User",
+        "kind": "record"
+      }
     }
-  },
-  "targetField": "p.contactDetails.phoneNumbers"
+  }
 }

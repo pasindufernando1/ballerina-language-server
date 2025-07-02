@@ -16,80 +16,30 @@
     },
     "sourceCode": ""
   },
-  "propertyKey": "expression",
   "position": {
     "line": 40,
     "offset": 12
   },
+  "propertyKey": "expression",
   "model": {
     "inputs": [
       {
-        "fields": [
-          {
-            "id": "user.name",
-            "variableName": "name",
-            "typeName": "string",
-            "kind": "string"
-          }
-        ],
+        "fields": [],
         "id": "user",
         "variableName": "user",
-        "typeName": "User",
+        "typeName": "User3",
         "kind": "record",
-        "category": "parameter"
+        "category": "parameter",
+        "reference": "1398966842"
       }
     ],
     "output": {
       "member": {
-        "fields": [
-          {
-            "fields": [
-              {
-                "member": {
-                  "id": "users4.user5.u",
-                  "typeName": "string",
-                  "kind": "string"
-                },
-                "id": "users4.user5.u",
-                "variableName": "u",
-                "typeName": "string[]",
-                "kind": "array"
-              }
-            ],
-            "id": "users4.user5",
-            "variableName": "user5",
-            "typeName": "User5",
-            "kind": "record"
-          },
-          {
-            "member": {
-              "fields": [
-                {
-                  "id": "users4.users6.account",
-                  "variableName": "account",
-                  "typeName": "string",
-                  "kind": "string"
-                },
-                {
-                  "id": "users4.users6.balance",
-                  "variableName": "balance",
-                  "typeName": "decimal",
-                  "kind": "decimal"
-                }
-              ],
-              "id": "users4.users6",
-              "typeName": "User6",
-              "kind": "record"
-            },
-            "id": "users4.users6",
-            "variableName": "users6",
-            "typeName": "User6[]",
-            "kind": "array"
-          }
-        ],
+        "fields": [],
         "id": "users4",
         "typeName": "User4",
-        "kind": "record"
+        "kind": "record",
+        "reference": "1398966843"
       },
       "id": "users4",
       "variableName": "users4",
@@ -101,7 +51,11 @@
         "output": "users4",
         "inputs": [],
         "expression": "[{users6: [{balance: 2.0, account: user.name}], user5: {u: [user.name, user.name]}}]",
-        "diagnostics": [],
+        "diagnostics": [
+          "undeclared field 'name' in record 'User3'",
+          "undeclared field 'name' in record 'User3'",
+          "undeclared field 'name' in record 'User3'"
+        ],
         "elements": [
           {
             "mappings": [
@@ -109,7 +63,9 @@
                 "output": "users4.0.users6",
                 "inputs": [],
                 "expression": "[{balance: 2.0, account: user.name}]",
-                "diagnostics": [],
+                "diagnostics": [
+                  "undeclared field 'name' in record 'User3'"
+                ],
                 "elements": [
                   {
                     "mappings": [
@@ -127,7 +83,9 @@
                           "user.name"
                         ],
                         "expression": "user.name",
-                        "diagnostics": [],
+                        "diagnostics": [
+                          "undeclared field 'name' in record 'User3'"
+                        ],
                         "elements": [],
                         "isQueryExpression": false
                       }
@@ -139,7 +97,10 @@
                 "output": "users4.0.user5.u",
                 "inputs": [],
                 "expression": "[user.name, user.name]",
-                "diagnostics": [],
+                "diagnostics": [
+                  "undeclared field 'name' in record 'User3'",
+                  "undeclared field 'name' in record 'User3'"
+                ],
                 "elements": [
                   {
                     "mappings": [
@@ -149,7 +110,9 @@
                           "user.name"
                         ],
                         "expression": "user.name",
-                        "diagnostics": [],
+                        "diagnostics": [
+                          "undeclared field 'name' in record 'User3'"
+                        ],
                         "elements": [],
                         "isQueryExpression": false
                       }
@@ -163,7 +126,9 @@
                           "user.name"
                         ],
                         "expression": "user.name",
-                        "diagnostics": [],
+                        "diagnostics": [
+                          "undeclared field 'name' in record 'User3'"
+                        ],
                         "elements": [],
                         "isQueryExpression": false
                       }
@@ -175,6 +140,28 @@
           }
         ]
       }
-    ]
+    ],
+    "references": {
+      "1398966842": {
+        "fields": [
+          {
+            "fields": [],
+            "id": "user4",
+            "variableName": "user4",
+            "typeName": "User4",
+            "kind": "record",
+            "reference": "1398966843"
+          },
+          {
+            "id": "i3",
+            "variableName": "i3",
+            "typeName": "int",
+            "kind": "int"
+          }
+        ],
+        "typeName": "User3",
+        "kind": "record"
+      }
+    }
   }
 }

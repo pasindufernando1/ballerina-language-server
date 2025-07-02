@@ -16,97 +16,45 @@
     },
     "sourceCode": ""
   },
-  "propertyKey": "expression",
   "position": {
     "line": 24,
     "offset": 32
   },
+  "propertyKey": "expression",
   "model": {
     "inputs": [
       {
-        "fields": [
-          {
-            "member": {
-              "id": "u1.phoneNumber.0",
-              "typeName": "string",
-              "kind": "string"
-            },
-            "id": "u1.phoneNumber",
-            "variableName": "phoneNumber",
-            "typeName": "string[]",
-            "kind": "array"
-          }
-        ],
+        "fields": [],
         "id": "u1",
         "variableName": "u1",
         "typeName": "User",
         "kind": "record",
-        "category": "variable"
+        "category": "variable",
+        "reference": "45127961"
       },
       {
-        "fields": [
-          {
-            "member": {
-              "id": "user.phoneNumber.0",
-              "typeName": "string",
-              "kind": "string"
-            },
-            "id": "user.phoneNumber",
-            "variableName": "phoneNumber",
-            "typeName": "string[]",
-            "kind": "array"
-          }
-        ],
+        "fields": [],
         "id": "user",
         "variableName": "user",
         "typeName": "User",
         "kind": "record",
-        "category": "parameter"
+        "category": "parameter",
+        "reference": "45127961"
       }
     ],
     "output": {
-      "fields": [
-        {
-          "member": {
-            "fields": [
-              {
-                "id": "var3.contacts.primaryPhone",
-                "variableName": "primaryPhone",
-                "typeName": "string",
-                "kind": "string"
-              },
-              {
-                "member": {
-                  "id": "var3.contacts.secondaryPhones",
-                  "typeName": "string",
-                  "kind": "string"
-                },
-                "id": "var3.contacts.secondaryPhones",
-                "variableName": "secondaryPhones",
-                "typeName": "string[]",
-                "kind": "array"
-              }
-            ],
-            "id": "var3.contacts",
-            "typeName": "Temp",
-            "kind": "record"
-          },
-          "id": "var3.contacts",
-          "variableName": "contacts",
-          "typeName": "Temp[]",
-          "kind": "array"
-        }
-      ],
+      "fields": [],
       "id": "var3",
       "variableName": "var3",
       "typeName": "Person5",
-      "kind": "record"
+      "kind": "record",
+      "reference": "-448891022"
     },
     "mappings": [
       {
         "output": "var3.contacts",
         "inputs": [],
-        "expression": "[\n        {\n            primaryPhone: \"\",\n            secondaryPhones: [\n                \"1\",\n                user.phoneNumber[0]\n            ]\n        }\n    ]\n",
+        "expression": "[\n                                               {\n                                                   primaryPhone: \"\",\n                                                   secondaryPhones: [\n                                                       \"1\",\n                                                       user.phoneNumber[0]\n                                                   ]\n                                               }\n                                           ]\n",
         "diagnostics": [],
         "elements": [
           {
@@ -122,7 +70,7 @@
               {
                 "output": "var3.contacts.0.secondaryPhones",
                 "inputs": [],
-                "expression": "[\n                \"1\",\n                user.phoneNumber[0]\n            ]\n",
+                "expression": "[\n                                                       \"1\",\n                                                       user.phoneNumber[0]\n                                                   ]\n",
                 "diagnostics": [],
                 "elements": [
                   {
@@ -130,7 +78,7 @@
                       {
                         "output": "var3.contacts.0.secondaryPhones.0",
                         "inputs": [],
-                        "expression": "                \"1\"",
+                        "expression": "                                                       \"1\"",
                         "diagnostics": [],
                         "elements": [],
                         "isQueryExpression": false
@@ -144,7 +92,7 @@
                         "inputs": [
                           "user.phoneNumber.0"
                         ],
-                        "expression": "                user.phoneNumber[0]\n",
+                        "expression": "                                                       user.phoneNumber[0]\n",
                         "diagnostics": [],
                         "elements": [],
                         "isQueryExpression": false
@@ -157,6 +105,39 @@
           }
         ]
       }
-    ]
+    ],
+    "references": {
+      "45127961": {
+        "fields": [
+          {
+            "fields": [],
+            "id": "info",
+            "variableName": "info",
+            "typeName": "Info",
+            "kind": "record",
+            "reference": "44765692"
+          }
+        ],
+        "typeName": "User",
+        "kind": "record"
+      },
+      "-448891022": {
+        "fields": [
+          {
+            "member": {
+              "typeName": "",
+              "reference": "45084962"
+            },
+            "id": "contacts",
+            "variableName": "contacts",
+            "typeName": "",
+            "kind": "array",
+            "reference": "45084962"
+          }
+        ],
+        "typeName": "Person5",
+        "kind": "record"
+      }
+    }
   }
 }

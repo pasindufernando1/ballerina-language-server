@@ -47,7 +47,7 @@ public class ReferenceType {
 
     public static RefType fromSemanticSymbol(Symbol symbol) {
         SymbolKind kind = symbol.kind();
-        TypeSymbol typeSymbol = null;
+        TypeSymbol typeSymbol;
         String name = "";
         if (kind == SymbolKind.TYPE_DEFINITION) {
             typeSymbol = ((TypeDefinitionSymbol) symbol).typeDescriptor();
@@ -66,11 +66,14 @@ public class ReferenceType {
             name = optName.orElseGet(() -> symbol.getName().orElseThrow());
         } else if (kind == SymbolKind.TYPE) {
             typeSymbol = (TypeSymbol) symbol;
-            name = typeSymbol.getName().orElseThrow();
+            Optional<String> optName = typeSymbol.getName();
+            name = optName.orElseGet(typeSymbol::signature);
         } else if (kind == SymbolKind.CONSTANT) {
             typeSymbol = ((VariableSymbol) symbol).typeDescriptor();
             Optional<String> optName = typeSymbol.getName();
             name = optName.orElseGet(() -> symbol.getName().orElseThrow());
+        } else {
+            typeSymbol = null;
         }
 
         if (typeSymbol == null) {
@@ -181,7 +184,7 @@ public class ReferenceType {
                     ? typeRefSymbol.getModule().get().id().toString()
                     : null;
             return fromSemanticSymbol(typeSymbol, name, moduleId);
-        } else if (kind == TypeDescKind.INT) {
+        }  else if (kind == TypeDescKind.INT) {
             RefType refType = new RefType("int");
             refType.typeName = "int";
             return refType;

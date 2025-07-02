@@ -16,44 +16,27 @@
     },
     "sourceCode": ""
   },
-  "propertyKey": "expression",
   "position": {
     "line": 19,
     "offset": 119
   },
+  "propertyKey": "expression",
   "model": {
     "inputs": [
       {
         "id": "CONST",
+        "variableName": "CONST",
         "typeName": "CONST",
         "kind": "CONST",
         "category": "constant"
       },
       {
         "member": {
-          "fields": [
-            {
-              "id": "userInfo.0.username",
-              "variableName": "username",
-              "typeName": "string",
-              "kind": "string"
-            },
-            {
-              "id": "userInfo.0.password",
-              "variableName": "password",
-              "typeName": "string",
-              "kind": "string"
-            },
-            {
-              "id": "userInfo.0.id",
-              "variableName": "id",
-              "typeName": "int",
-              "kind": "int"
-            }
-          ],
-          "id": "userInfo.0",
+          "fields": [],
+          "id": "userInfo",
           "typeName": "UserInfo",
-          "kind": "record"
+          "kind": "record",
+          "reference": "-1740685977"
         },
         "id": "userInfo",
         "variableName": "userInfo",
@@ -64,23 +47,11 @@
     ],
     "output": {
       "member": {
-        "fields": [
-          {
-            "id": "credentials.username",
-            "variableName": "username",
-            "typeName": "string",
-            "kind": "string"
-          },
-          {
-            "id": "credentials.password",
-            "variableName": "password",
-            "typeName": "string",
-            "kind": "string"
-          }
-        ],
+        "fields": [],
         "id": "credentials",
         "typeName": "Credentials",
-        "kind": "record"
+        "kind": "record",
+        "reference": "-695303698"
       },
       "id": "credentials",
       "variableName": "credentials",
@@ -100,6 +71,7 @@
         "elements": [],
         "isQueryExpression": false
       }
-    ]
+    ],
+    "references": {}
   }
 }

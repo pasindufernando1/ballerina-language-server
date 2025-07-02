@@ -18,11 +18,16 @@
 
 package io.ballerina.flowmodelgenerator.core.model.node;
 
+import io.ballerina.compiler.api.SemanticModel;
+import io.ballerina.compiler.api.symbols.TypeReferenceTypeSymbol;
+import io.ballerina.compiler.api.symbols.TypeSymbol;
 import io.ballerina.compiler.syntax.tree.SyntaxKind;
 import io.ballerina.flowmodelgenerator.core.model.NodeBuilder;
 import io.ballerina.flowmodelgenerator.core.model.NodeKind;
 import io.ballerina.flowmodelgenerator.core.model.Property;
 import io.ballerina.flowmodelgenerator.core.model.SourceBuilder;
+import io.ballerina.projects.Document;
+import org.ballerinalang.langserver.common.utils.DefaultValueGenerationUtil;
 import org.eclipse.lsp4j.TextEdit;
 
 import java.nio.file.Path;
@@ -49,6 +54,22 @@ public class VariableBuilder extends NodeBuilder {
 
     @Override
     public Map<Path, List<TextEdit>> toSource(SourceBuilder sourceBuilder) {
+        Property flowNodeType = sourceBuilder.flowNode.properties().get("type");
+        String value = flowNodeType.value().toString();
+        Path filePath = sourceBuilder.filePath;
+        SemanticModel semanticModel = sourceBuilder.workspaceManager.semanticModel(filePath).orElseThrow();
+        Document document = sourceBuilder.workspaceManager.document(filePath).orElseThrow();
+        TypeSymbol typeSymbol = semanticModel.types().getType(document, value).orElseThrow();
+        String nodeType = ((TypeReferenceTypeSymbol) typeSymbol).typeDescriptor().typeKind().toString();
+        String defaultValue = null;
+        if (nodeType.equals("RECORD")) {
+            defaultValue = "{}";
+        } else if (nodeType.equals("ARRAY")) {
+            defaultValue = "[]";
+        }
+
+        Optional<String> defaultValueOpt = DefaultValueGenerationUtil.getDefaultValueForType(typeSymbol);
+
         Optional<Property> type = sourceBuilder.getProperty(Property.TYPE_KEY);
         Optional<Property> variable = sourceBuilder.getProperty(Property.VARIABLE_KEY);
         if (type.isPresent() && variable.isPresent()) {
@@ -60,7 +81,12 @@ public class VariableBuilder extends NodeBuilder {
             sourceBuilder.token()
                     .keyword(SyntaxKind.EQUAL_TOKEN)
                     .expression(exprProperty.get());
+        } else {
+            sourceBuilder.token()
+                    .keyword(SyntaxKind.EQUAL_TOKEN)
+                    .expression(defaultValue);
         }
+
         sourceBuilder.token().endOfStatement();
         return sourceBuilder
                 .textEdit()

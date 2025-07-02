@@ -95,7 +95,6 @@ import org.ballerinalang.diagramutil.connector.models.connector.types.RecordType
 import org.eclipse.lsp4j.TextEdit;
 
 import java.nio.file.Path;
-import java.sql.Ref;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -159,7 +158,8 @@ public class DataMapManager {
                 .findAny();
     }
 
-    public record TypeField(String fieldName, RefType type, boolean optional, String defaultValue, Optional<TypeField> member) {
+    public record TypeField(String fieldName, RefType type, boolean optional, String defaultValue,
+                            Optional<TypeField> member) {
     }
 
     public JsonElement getMappings(SemanticModel semanticModel, JsonElement cd, LinePosition position,
@@ -186,8 +186,7 @@ public class DataMapManager {
         RefType refType;
         try {
             refType = ReferenceType.fromSemanticSymbol(targetNode.typeSymbol());
-        }
-        catch (UnsupportedOperationException e) {
+        } catch (UnsupportedOperationException e) {
             return null;
         }
         String name = targetNode.name();
@@ -590,8 +589,6 @@ public class DataMapManager {
     private List<MappingPort> getInputPorts(SemanticModel semanticModel, Document document, LinePosition position,
                                             Map<String, MappingPort> references) {
         List<MappingPort> refMappingPorts = new ArrayList<>();
-        Map<String, MappingPort> mappingPorts = new HashMap<>();
-
         List<Symbol> symbols = semanticModel.visibleSymbols(document, position);
         for (Symbol symbol : symbols) {
             SymbolKind kind = symbol.kind();
@@ -649,7 +646,8 @@ public class DataMapManager {
                 }
                 MappingPort refMappingPort = null;
                 if (refType != null) {
-                    refMappingPort = getRefMappingPort(refType.getTypeName(), refType.getTypeName(), refType, true, references);
+                    refMappingPort = getRefMappingPort(refType.getTypeName(), refType.getTypeName(), refType,
+                            true, references);
                 }
                 if (refMappingPort == null) {
                     continue;
@@ -661,11 +659,13 @@ public class DataMapManager {
         return refMappingPorts;
     }
 
-    private MappingPort getRefMappingPort(String id, String name, RefType type, boolean isInputPort, Map<String, MappingPort>  references) {
+    private MappingPort getRefMappingPort(String id, String name, RefType type, boolean isInputPort,
+                                          Map<String, MappingPort>  references) {
         if ("record".equals(type.getTypeName())) {
             if (type instanceof RefRecordType recordType) {
                 MappingRecordPort recordPort = new MappingRecordPort(
-                        id, name, recordType.name != null ? recordType.name : recordType.getTypeName(), recordType.getTypeName(), recordType.getHashCode());
+                        id, name, recordType.name != null ? recordType.name : recordType.getTypeName(),
+                        recordType.getTypeName(), recordType.getHashCode());
                 for (ReferenceType.Field field : recordType.fields) {
                     MappingPort fieldPort = getRefMappingPort(
                             field.fieldName(), field.fieldName(), field.type(), isInputPort, references);
@@ -680,7 +680,8 @@ public class DataMapManager {
             }
         } else if ("array".equals(type.getTypeName())) {
             if (type instanceof RefArrayType arrayType) {
-                MappingPort memberPort = getRefMappingPort(id, null, arrayType.elementType, isInputPort, references);
+                MappingPort memberPort = getRefMappingPort(id, null,
+                        arrayType.elementType, isInputPort, references);
                 MappingArrayPort arrayPort = new MappingArrayPort(
                         id, name, memberPort == null ? "record" : memberPort.typeName + "[]", type.getTypeName());
                 arrayPort.setMember(memberPort);
@@ -1449,12 +1450,12 @@ public class DataMapManager {
             super(id, variableName, typeName, kind, reference);
         }
 
-        MappingRecordPort(MappingRecordPort mappingRecordPort){
+        MappingRecordPort(MappingRecordPort mappingRecordPort) {
             super(mappingRecordPort.id, mappingRecordPort.variableName, mappingRecordPort.typeName,
                     mappingRecordPort.kind, mappingRecordPort.reference);
         }
 
-        MappingRecordPort(MappingRecordPort mappingRecordPort, boolean isReferenceType){
+        MappingRecordPort(MappingRecordPort mappingRecordPort, boolean isReferenceType) {
             super(mappingRecordPort.typeName, mappingRecordPort.kind);
             this.fields = mappingRecordPort.fields;
         }

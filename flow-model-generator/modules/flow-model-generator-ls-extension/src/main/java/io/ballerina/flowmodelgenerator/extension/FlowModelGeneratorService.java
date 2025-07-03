@@ -280,21 +280,6 @@ public class FlowModelGeneratorService implements ExtendedLanguageServerService 
         });
     }
 
-    @JsonRequest
-    public CompletableFuture<FlowModelSourceGeneratorResponse> getSourceCodeWithDefaults(FlowModelSourceGeneratorRequest request) {
-
-        return CompletableFuture.supplyAsync(() -> {
-            FlowModelSourceGeneratorResponse response = new FlowModelSourceGeneratorResponse();
-            try {
-                SourceGenerator sourceGenerator =
-                        new SourceGenerator(this.workspaceManagerProxy.get(), Path.of(request.filePath()));
-                response.setTextEdits(sourceGenerator.toSourceCodeWithDefaults(request.flowNode(), lsClientLogger));
-            } catch (Throwable e) {
-                response.setError(e);
-            }
-            return response;
-        });
-    }
 
     @JsonRequest
     public CompletableFuture<FlowModelAvailableNodesResponse> getAvailableNodes(

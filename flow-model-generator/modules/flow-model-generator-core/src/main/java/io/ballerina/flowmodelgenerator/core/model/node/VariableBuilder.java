@@ -19,6 +19,7 @@
 package io.ballerina.flowmodelgenerator.core.model.node;
 
 import io.ballerina.compiler.api.SemanticModel;
+import io.ballerina.compiler.api.symbols.TypeDescKind;
 import io.ballerina.compiler.api.symbols.TypeReferenceTypeSymbol;
 import io.ballerina.compiler.api.symbols.TypeSymbol;
 import io.ballerina.compiler.syntax.tree.SyntaxKind;
@@ -60,15 +61,19 @@ public class VariableBuilder extends NodeBuilder {
         SemanticModel semanticModel = sourceBuilder.workspaceManager.semanticModel(filePath).orElseThrow();
         Document document = sourceBuilder.workspaceManager.document(filePath).orElseThrow();
         TypeSymbol typeSymbol = semanticModel.types().getType(document, value).orElseThrow();
-        String nodeType = ((TypeReferenceTypeSymbol) typeSymbol).typeDescriptor().typeKind().toString();
+        String nodeType;
+        if (typeSymbol.typeKind() == TypeDescKind.TYPE_REFERENCE) {
+            nodeType = ((TypeReferenceTypeSymbol) typeSymbol).typeDescriptor().typeKind().toString();
+        } else {
+            nodeType = typeSymbol.typeKind().toString();
+        }
+
         String defaultValue = null;
         if (nodeType.equals("RECORD")) {
             defaultValue = "{}";
         } else if (nodeType.equals("ARRAY")) {
             defaultValue = "[]";
         }
-
-        Optional<String> defaultValueOpt = DefaultValueGenerationUtil.getDefaultValueForType(typeSymbol);
 
         Optional<Property> type = sourceBuilder.getProperty(Property.TYPE_KEY);
         Optional<Property> variable = sourceBuilder.getProperty(Property.VARIABLE_KEY);
@@ -81,7 +86,7 @@ public class VariableBuilder extends NodeBuilder {
             sourceBuilder.token()
                     .keyword(SyntaxKind.EQUAL_TOKEN)
                     .expression(exprProperty.get());
-        } else {
+        } else if (defaultValue != null) {
             sourceBuilder.token()
                     .keyword(SyntaxKind.EQUAL_TOKEN)
                     .expression(defaultValue);

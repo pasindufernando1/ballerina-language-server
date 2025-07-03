@@ -980,6 +980,45 @@ public class DataMapManager {
         return gson.toJsonTree(visualizableProperties);
     }
 
+    public JsonElement getInitialTextEdits(SemanticModel semanticModel, JsonElement node) {
+        FlowNode flowNode = gson.fromJson(node, FlowNode.class);
+        Codedata codedata = flowNode.codedata();
+        NodeKind nodeKind = codedata.node();
+        Map<Path, List<TextEdit>> textEditsMap = new HashMap<>();
+        if (nodeKind == NodeKind.VARIABLE) {
+            Optional<Property> optType = flowNode.getProperty("type");
+            if (optType.isEmpty()) {
+                return gson.toJsonTree(textEditsMap);
+            }
+            String type = ((String) optType.get().value()).split("\\[")[0];
+            for (Symbol symbol : semanticModel.moduleSymbols()) {
+                if (symbol.kind() == SymbolKind.TYPE_DEFINITION) {
+                    if (symbol.getName().isEmpty() || !symbol.getName().get().equals(type)) {
+                        continue;
+                    }
+                    TypeDefinitionSymbol typeDefSymbol = (TypeDefinitionSymbol) symbol;
+                    TypeDescKind kind = typeDefSymbol.typeDescriptor().typeKind();
+                    String defaultValue = null;
+                    if (kind == TypeDescKind.RECORD) {
+                        defaultValue = "{}";
+                    } else if (kind == TypeDescKind.ARRAY) {
+                        defaultValue = "[]";
+                    }
+                    if (defaultValue != null) {
+                        // You may need to determine the correct file path and position
+//                        Path filePath =
+//                        List<TextEdit> edits = new ArrayList<>();
+//                        // Here, you may want to use the correct range for the variable initializer
+//                        edits.add(new TextEdit(new Range(new Position(0, 0), new Position(0, 0)), defaultValue));
+//                        textEditsMap.put(filePath, edits);
+                    }
+                    break;
+                }
+            }
+        }
+        return gson.toJsonTree(textEditsMap);
+    }
+
     private boolean isEffectiveRecordType(TypeSymbol typeSymbol) {
         TypeSymbol rawTypeSymbol = CommonUtils.getRawType(typeSymbol);
         TypeDescKind kind = rawTypeSymbol.typeKind();

@@ -1442,6 +1442,7 @@ public class DataMapManager {
         String typeName;
         String kind;
         String category;
+        Boolean isFocused;
 
         MappingPort(String id, String variableName, String typeName, String kind) {
             this.id = id;

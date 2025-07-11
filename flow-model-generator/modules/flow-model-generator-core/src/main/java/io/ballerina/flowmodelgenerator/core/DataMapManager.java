@@ -174,9 +174,13 @@ public class DataMapManager {
         int end = textDocument.textPositionFrom(lineRange.endLine());
         NonTerminalNode node = modulePartNode.findNode(TextRange.from(start, end - start), true);
         String targetFieldName;
-        if (node.kind() == SyntaxKind.LOCAL_VAR_DECL || node.kind() == SyntaxKind.MODULE_VAR_DECL) {
+        if (node.kind() == SyntaxKind.LOCAL_VAR_DECL) {
             VariableDeclarationNode variableDeclarationNode = (VariableDeclarationNode) node;
             targetFieldName = variableDeclarationNode.typedBindingPattern().bindingPattern().toSourceCode().trim();
+        } else if (node.kind() == SyntaxKind.MODULE_VAR_DECL) {
+            ModuleVariableDeclarationNode moduleVariableDeclarationNode = (ModuleVariableDeclarationNode) node;
+            targetFieldName = moduleVariableDeclarationNode.typedBindingPattern().bindingPattern()
+                    .toSourceCode().trim();
         } else {
             targetFieldName = null;
         }

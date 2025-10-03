@@ -629,13 +629,14 @@ public class DataMapManager {
     private void genMapping(Node expr, String name, List<Mapping> elements, SemanticModel semanticModel,
                             Document functionDocument, Document dataMappingDocument, List<MappingPort> enumPorts) {
         List<String> inputs = new ArrayList<>();
-        expr.accept(new GenInputsVisitor(inputs, enumPorts));
+        GenInputsVisitor visitor = new GenInputsVisitor(inputs, enumPorts);
+        expr.accept(visitor);
         LineRange customFunctionRange = getCustomFunctionRange(expr, functionDocument, dataMappingDocument);
         Mapping mapping = new Mapping(name, inputs, expr.toSourceCode(),
                 getDiagnostics(expr.lineRange(), semanticModel), new ArrayList<>(),
                 expr.kind() == SyntaxKind.QUERY_EXPRESSION,
                 expr.kind() == SyntaxKind.FUNCTION_CALL,
-                customFunctionRange);
+                null, customFunctionRange, visitor.getElementAccessIndex());
         elements.add(mapping);
     }
 
@@ -2257,25 +2258,25 @@ public class DataMapManager {
 
     private record Mapping(String output, List<String> inputs, String expression, List<String> diagnostics,
                            List<MappingElements> elements, Boolean isQueryExpression, Boolean isFunctionCall,
-                           Map<String, String> imports, LineRange functionRange) {
+                           Map<String, String> imports, LineRange functionRange, Integer elementAccessIndex) {
 
         private Mapping(String output, List<String> inputs, String expression, List<String> diagnostics,
                         List<MappingElements> elements) {
             this(output, inputs, expression, diagnostics, elements, null,
-                    null, null, null);
+                    null, null, null, null);
         }
 
         private Mapping(String output, List<String> inputs, String expression, List<String> diagnostics,
                         List<MappingElements> elements, Boolean isQueryExpression) {
             this(output, inputs, expression, diagnostics, elements, isQueryExpression,
-                    null, null, null);
+                    null, null, null, null);
         }
 
         private Mapping(String output, List<String> inputs, String expression, List<String> diagnostics,
                         List<MappingElements> elements, Boolean isQueryExpression, Boolean isFunctionCall,
                         LineRange customFunctionRange) {
             this(output, inputs, expression, diagnostics, elements, isQueryExpression, isFunctionCall, null,
-                    customFunctionRange);
+                    customFunctionRange, null);
         }
     }
 
@@ -2401,6 +2402,10 @@ public class DataMapManager {
             this.focusExpression = focusExpression;
         }
 
+        String getRef() {
+            return this.ref;
+        }
+
     }
 
     private static class MappingRecordPort extends MappingPort {
@@ -2477,10 +2482,16 @@ public class DataMapManager {
     private static class GenInputsVisitor extends NodeVisitor {
         private final List<String> inputs;
         private final List<DataMapManager.MappingPort> enumPorts;
+        private Integer elementAccessIndex;
 
         GenInputsVisitor(List<String> inputs, List<DataMapManager.MappingPort> enumPorts) {
             this.inputs = inputs;
             this.enumPorts = enumPorts;
+            this.elementAccessIndex = null;
+        }
+
+        Integer getElementAccessIndex() {
+            return elementAccessIndex;
         }
 
         @Override
@@ -2537,6 +2548,20 @@ public class DataMapManager {
         public void visit(IndexedExpressionNode node) {
             String source = node.toSourceCode().trim();
             inputs.add(source.replace("[", ".").substring(0, source.length() - 1));
+
+            // Extract the index value from the key expression (only the outermost/rightmost index)
+            // For multi-dimensional arrays like arr[0][1], this captures only the last index [1]
+            SeparatedNodeList<ExpressionNode> keyExprs = node.keyExpression();
+            if (!keyExprs.isEmpty()) {
+                ExpressionNode keyExpr = keyExprs.get(0);
+                String indexStr = keyExpr.toSourceCode().trim();
+                try {
+                    elementAccessIndex = Integer.parseInt(indexStr);
+                } catch (NumberFormatException e) {
+                    // If the index is not a numeric literal, leave as null
+                    elementAccessIndex = null;
+                }
+            }
         }
 
         @Override
